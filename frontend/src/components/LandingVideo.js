@@ -6,7 +6,7 @@ import "./LandingVideo.css";
 function LandingVideo() {
   return (
     <div className="landing-video-container">
-      <video src="/videos/video-1.mp4" autoPlay loop muted />
+      <h1>F1 DATA ANALYSIS </h1>
       <div className="landing-video-btns">
         <Button
           className="btns"
