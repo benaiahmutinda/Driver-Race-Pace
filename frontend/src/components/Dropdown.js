@@ -1,9 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Dropdown.css";
+import axios from "axios";
 
-const Dropdown = ({ options, onSelect }) => {
+const Dropdown = ({ onSelect }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState("");
+
+  const [options, setOptions] = useState([]);
+
+  useEffect(() => {
+    // Fetch options from the API endpoint using Axios
+    axios
+      .get("http://localhost:5000/year-dropdown-options")
+      .then((response) => {
+        // Extract the options array from the response
+        const optionsData = response.data;
+        console.log(optionsData);
+        setOptions(optionsData);
+      })
+      .catch((error) => {
+        console.error("Error fetching dropdown options:", error);
+      });
+  }, []);
 
   const toggleDropdown = () => {
     setIsOpen((prevIsOpen) => !prevIsOpen);
