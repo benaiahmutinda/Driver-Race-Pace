@@ -1,27 +1,13 @@
 import React, { useState, useEffect } from "react";
 import "./Dropdown.css";
-import axios from "axios";
 
-const Dropdown = ({ onSelect }) => {
+const Dropdown = ({ onSelect, preFillerText, optionsData }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState("");
-
-  const [options, setOptions] = useState([]);
+  const [selectedOption, setSelectedOption] = useState(preFillerText);
 
   useEffect(() => {
-    // Fetch options from the API endpoint using Axios
-    axios
-      .get("http://localhost:5000/year-dropdown-options")
-      .then((response) => {
-        // Extract the options array from the response
-        const optionsData = response.data;
-        console.log(optionsData);
-        setOptions(optionsData);
-      })
-      .catch((error) => {
-        console.error("Error fetching dropdown options:", error);
-      });
-  }, []);
+    setSelectedOption(preFillerText); // Reset selectedOption when optionsData changes
+  }, [optionsData, preFillerText]);
 
   const toggleDropdown = () => {
     setIsOpen((prevIsOpen) => !prevIsOpen);
@@ -36,12 +22,12 @@ const Dropdown = ({ onSelect }) => {
   return (
     <div className="dropdown-container">
       <div className="dropdown-header" onClick={toggleDropdown}>
-        <span>{selectedOption || "Select an option"}</span>
-        <i className={`arrow ${isOpen ? "up" : "down"}`} />
+        <span>{selectedOption || preFillerText}</span>
+        <i className="dropdown-arrow arrow" />
       </div>
       {isOpen && (
         <ul className="dropdown-options">
-          {options.map((option) => (
+          {optionsData.map((option) => (
             <li key={option} onClick={() => handleOptionSelect(option)}>
               {option}
             </li>
